@@ -28,6 +28,12 @@ static const float default_opacity_focus   = 1.00f;
 /* logging */
 static int log_level = WLR_ERROR;
 
+/* Autostart */
+static const char *const autostart[] = {
+        "swaybg", "-i", "Pictures/walls/goldfinch3.png", NULL,
+        NULL /* terminate */
+};
+
 static const Rule rules[] = {
 	/* app_id             title       tags mask     isfloating   alpha unfocus      monitor */
 	{ "Gimp_EXAMPLE",     NULL,       0,            1,           default_opacity_unfocus, -1 }, /* Start on currently visible tags floating, not tiled */
@@ -127,25 +133,35 @@ static const char *termcmd[] = { "foot", NULL };
 static const char *menucmd[] = { "wmenu-run", NULL };
 static const char *browser[] = { "zen-browser", NULL};
 
+static const char *up_vol[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+10%",   NULL };
+static const char *down_vol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-10%",   NULL };
+static const char *mute_vol[] = { "pactl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle", NULL };
+
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: 2 -> at, etc. */
 	/* modifier                  key                  function          argument */
 
-
+  // main programs
 	{ MODKEY,                    XKB_KEY_d,           spawn,            {.v = menucmd} },
 	{ MODKEY,                    XKB_KEY_Return,      spawn,            {.v = termcmd} },
 	{ MODKEY,                    XKB_KEY_r,           spawn,            {.v = browser} },
 
 
+  //scripts
+	{ MODKEY,                    XKB_KEY_s,           spawn,            SHCMD("dwldots/scripts/screenshotcopy.sh") },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_s,           spawn,            SHCMD("dwldots/scripts/screenshot.sh") },
 
+
+  // window management
 	{ MODKEY,                    XKB_KEY_j,           focusstack,       {.i = +1} },
 	{ MODKEY,                    XKB_KEY_k,           focusstack,       {.i = -1} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_j,           movestack,        {.i = +1} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_k,           movestack,        {.i = -1} },
 
-
+	{ MODKEY,                    XKB_KEY_f,           togglefullscreen, {0} },
 	{ MODKEY,                    XKB_KEY_w,           zoom,             {0} },
 	{ MODKEY,                    XKB_KEY_Tab,         view,             {0} },
+
 	{ MODKEY,                    XKB_KEY_q,           killclient,       {0} },
 
 	{ MODKEY,                    XKB_KEY_t,           setlayout,        {.v = &layouts[0]} },
@@ -153,19 +169,17 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_m,           setlayout,        {.v = &layouts[2]} },
 	{ MODKEY,                    XKB_KEY_space,       setlayout,        {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_space,       togglefloating,   {0} },
-	{ MODKEY,                    XKB_KEY_e,           togglefullscreen, {0} },
 	{ MODKEY,                    XKB_KEY_0,           view,             {.ui = ~0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_parenright,  tag,              {.ui = ~0} },
 
+  { MODKEY,                    XKB_KEY_i,           incnmaster,       {.i = +1} },
+  { MODKEY,                    XKB_KEY_p,           incnmaster,       {.i = -1} },
 
-
-	{ MODKEY,                    XKB_KEY_i,           incnmaster,       {.i = +1} },
-	{ MODKEY,                    XKB_KEY_p,           incnmaster,       {.i = -1} },
 	{ MODKEY,                    XKB_KEY_h,           setmfact,         {.f = -0.05f} },
 	{ MODKEY,                    XKB_KEY_l,           setmfact,         {.f = +0.05f} },
 
 
-
+  //vanity gaps
 	{ MODKEY|WLR_MODIFIER_LOGO,  XKB_KEY_h,          incgaps,       {.i = +1 } },
 	{ MODKEY|WLR_MODIFIER_LOGO,  XKB_KEY_l,          incgaps,       {.i = -1 } },
 	{ MODKEY|WLR_MODIFIER_LOGO|WLR_MODIFIER_SHIFT,   XKB_KEY_H,      incogaps,      {.i = +1 } },
@@ -184,17 +198,24 @@ static const Key keys[] = {
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_O,          incovgaps,     {.i = -1 } },
 
 
+  //opacity focus
 	{ MODKEY|WLR_MODIFIER_CTRL,  XKB_KEY_k,          setopacityunfocus, {.f = +0.1f} },
 	{ MODKEY|WLR_MODIFIER_CTRL,  XKB_KEY_j,          setopacityunfocus, {.f = -0.1f} },
 	{ MODKEY|WLR_MODIFIER_CTRL|WLR_MODIFIER_SHIFT, XKB_KEY_K, setopacityfocus, {.f = +0.1f} },
 	{ MODKEY|WLR_MODIFIER_CTRL|WLR_MODIFIER_SHIFT, XKB_KEY_J, setopacityfocus, {.f = -0.1f} },
 
 
+  //monitors
 	{ MODKEY,                    XKB_KEY_comma,       focusmon,         {.i = WLR_DIRECTION_LEFT} },
 	{ MODKEY,                    XKB_KEY_period,      focusmon,         {.i = WLR_DIRECTION_RIGHT} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_less,        tagmon,           {.i = WLR_DIRECTION_LEFT} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_greater,     tagmon,           {.i = WLR_DIRECTION_RIGHT} },
 
+
+  //volume buttons
+  { 0,              XKB_KEY_XF86AudioRaiseVolume,   spawn,            {.v = up_vol } },
+  { 0,              XKB_KEY_XF86AudioLowerVolume,   spawn,            {.v = down_vol } },
+  { 0,              XKB_KEY_XF86AudioMute,          spawn,            {.v = mute_vol } },
 
 
 
