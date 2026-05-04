@@ -146,6 +146,9 @@ static const char *up_vol[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", 
 static const char *down_vol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-500%",   NULL };
 static const char *mute_vol[] = { "pactl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle", NULL };
 
+static const char *bright_up[]   = { "brightnessctl", "set", "+5%", NULL };
+static const char *bright_down[] = { "brightnessctl", "set", "-5%", NULL };
+
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: 2 -> at, etc. */
 	/* modifier                  key                  function          argument */
@@ -183,8 +186,8 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_0,           view,             {.ui = ~0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_parenright,  tag,              {.ui = ~0} },
 
-  { MODKEY,                    XKB_KEY_i,           incnmaster,       {.i = +1} },
-  { MODKEY,                    XKB_KEY_p,           incnmaster,       {.i = -1} },
+    { MODKEY,                    XKB_KEY_i,           incnmaster,       {.i = +1} },
+    { MODKEY,                    XKB_KEY_p,           incnmaster,       {.i = -1} },
 
 	{ MODKEY,                    XKB_KEY_h,           setmfact,         {.f = -0.05f} },
 	{ MODKEY,                    XKB_KEY_l,           setmfact,         {.f = +0.05f} },
@@ -224,10 +227,13 @@ static const Key keys[] = {
 
 
   //volume buttons
-  { 0,              XKB_KEY_XF86AudioRaiseVolume,   spawn,            {.v = up_vol } },
-  { 0,              XKB_KEY_XF86AudioLowerVolume,   spawn,            {.v = down_vol } },
-  { 0,              XKB_KEY_XF86AudioMute,          spawn,            {.v = mute_vol } },
+    { 0,              XKB_KEY_XF86AudioRaiseVolume,   spawn,            {.v = up_vol   } },
+    { 0,              XKB_KEY_XF86AudioLowerVolume,   spawn,            {.v = down_vol } },
+    { 0,              XKB_KEY_XF86AudioMute,          spawn,            {.v = mute_vol } },
 
+  //brightness buttons
+    { 0,              XKB_KEY_XF86MonBrightnessUp,    spawn,            {.v = bright_up   } },
+    { 0,              XKB_KEY_XF86MonBrightnessDown,  spawn,            {.v = bright_down } },
 
 
 	TAGKEYS(          XKB_KEY_1, XKB_KEY_exclam,                        0),
