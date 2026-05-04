@@ -142,12 +142,12 @@ static const char *menucmd[] = { "wmenu-run", NULL };
 static const char *browser[] = { "zen-browser", NULL};
 static const char *files[]   = { "foot", "-e", "yazi", NULL};
 
-static const char *up_vol[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+500%",   NULL };
-static const char *down_vol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-500%",   NULL };
+static const char *up_vol[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%",   NULL };
+static const char *down_vol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%",   NULL };
 static const char *mute_vol[] = { "pactl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle", NULL };
 
 static const char *bright_up[]   = { "brightnessctl", "set", "+5%", NULL };
-static const char *bright_down[] = { "brightnessctl", "set", "-5%", NULL };
+static const char *bright_down[] = { "brightnessctl", "set", "5%-", NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: 2 -> at, etc. */
