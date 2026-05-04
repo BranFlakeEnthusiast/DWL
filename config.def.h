@@ -132,6 +132,7 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 static const char *termcmd[] = { "foot", NULL };
 static const char *menucmd[] = { "wmenu-run", NULL };
 static const char *browser[] = { "zen-browser", NULL};
+static const char *files[]   = { "foot", "-e", "yazi", NULL};
 
 static const char *up_vol[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+10%",   NULL };
 static const char *down_vol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-10%",   NULL };
@@ -145,6 +146,7 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_d,           spawn,            {.v = menucmd} },
 	{ MODKEY,                    XKB_KEY_Return,      spawn,            {.v = termcmd} },
 	{ MODKEY,                    XKB_KEY_r,           spawn,            {.v = browser} },
+	{ MODKEY,                    XKB_KEY_e,           spawn,            {.v = files}   },
 
 
   //scripts
