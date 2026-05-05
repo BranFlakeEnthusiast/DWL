@@ -42,6 +42,7 @@ static int log_level = WLR_ERROR;
 static const char *const autostart[] = {
         "swaybg", "-i", "Pictures/walls/goldfinch3.png", NULL,
 		"wal", "-R", NULL,
+        "pkill", "-SIGUSR1", "dwl", NULL,
         NULL /* terminate */
 };
 
@@ -143,8 +144,11 @@ static const int cursor_timeout = 5;
 
 /* commands */
 static const char *termcmd[] = { "foot", NULL };
-static const char *menucmd[] = { "wmenu-run", NULL };
+static const char *menucmd[] = { "/home/stan/dwldots/scripts/wmenu_run_wal.sh", NULL };
 static const char *browser[] = { "zen-browser", NULL};
+
+static const char *screenshotcopy[] = { "dwldots/scripts/screenshotcopy.sh", NULL};
+static const char *screenshot[] =     { "dwldots/scripts/screenshot.sh", NULL};
 
 static const char *up_vol[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%",   NULL };
 static const char *down_vol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%",   NULL };
@@ -164,8 +168,8 @@ static const Key keys[] = {
 
 
   //scripts
-	{ MODKEY,                    XKB_KEY_s,           spawn,            SHCMD("dwldots/scripts/screenshotcopy.sh") },
-	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_s,           spawn,            SHCMD("dwldots/scripts/screenshot.sh") },
+	{ MODKEY,                    XKB_KEY_s,           spawn,            {.v = screenshotcopy} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_s,           spawn,            {.v = screenshot}     },
 
 
   // window management
