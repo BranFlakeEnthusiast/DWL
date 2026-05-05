@@ -19,6 +19,8 @@ static const char *fonts[]                 = {"monospace:size=10"};
 static const float rootcolor[]             = COLOR(0x222222ff);
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.0f, 0.0f, 0.0f, 1.0f}; /* You can also use glsl colors */
+static const int respect_monitor_reserved_area = 0;  /* 1 to monitor center while respecting the monitor's reserved area, 0 to monitor center */
+
 static uint32_t colors[][3]                = {
 	/*               fg          bg          border    */
 	[SchemeNorm] = { 0xbbbbbbff, 0x222222ff, 0x444444ff },
@@ -41,10 +43,10 @@ static const char *const autostart[] = {
 };
 
 static const Rule rules[] = {
-	/* app_id             title       tags mask     isfloating   alpha unfocus      monitor */
-	{ "Gimp_EXAMPLE",     NULL,       0,            1,           default_opacity_unfocus, -1 }, /* Start on currently visible tags floating, not tiled */
-	{ "firefox_EXAMPLE",  NULL,       1 << 8,       0,           1.00,                    -1 }, /* Start on ONLY tag "9" */
-    /* default/example rule: can be changed but cannot be eliminated; at least one rule must exist */
+	/* app_id             title  tags    isfloating  opacity_unfocus  monitor  x   y   w     h    */
+	{ "Gimp_EXAMPLE",     NULL,  0,      1,          0.75,            -1,      -1, -1, 1000, 1000 },
+	{ "firefox_EXAMPLE",  NULL,  1 << 8, 0,          -1,              -1,      -1, -1, -1,   -1   },
+	{ "wmenu-run",            NULL,  0,      1,          1.0,             -1,      560, 525, 800, 30  },
 };
 
 /* layout(s) */
