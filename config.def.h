@@ -15,6 +15,8 @@ static const unsigned int gappoh           = 25; /* horiz outer gap between wind
 static const unsigned int gappov           = 35; /* vert outer gap between windows and screen edge */
 static const int showbar                   = 1; /* 0 means no bar */
 static const int topbar                    = 1; /* 0 means bottom bar */
+static const int refresh_colors            = 0; /* 1 means reloading colors when the session starts*/
+static const char *colors_file             = "/home/stan/.cache/wal/dwl-bar"; /* change the username */
 static const char *fonts[]                 = {"monospace:size=10"};
 static const float rootcolor[]             = COLOR(0x222222ff);
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
@@ -39,6 +41,7 @@ static int log_level = WLR_ERROR;
 /* Autostart */
 static const char *const autostart[] = {
         "swaybg", "-i", "Pictures/walls/goldfinch3.png", NULL,
+		"wal", "-R", NULL,
         NULL /* terminate */
 };
 
@@ -142,7 +145,6 @@ static const int cursor_timeout = 5;
 static const char *termcmd[] = { "foot", NULL };
 static const char *menucmd[] = { "wmenu-run", NULL };
 static const char *browser[] = { "zen-browser", NULL};
-static const char *files[]   = { "foot", "-e", "yazi", NULL};
 
 static const char *up_vol[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%",   NULL };
 static const char *down_vol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%",   NULL };
@@ -159,7 +161,6 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_d,           spawn,            {.v = menucmd} },
 	{ MODKEY,                    XKB_KEY_Return,      spawn,            {.v = termcmd} },
 	{ MODKEY,                    XKB_KEY_r,           spawn,            {.v = browser} },
-	{ MODKEY,                    XKB_KEY_e,           spawn,            {.v = files}   },
 
 
   //scripts
@@ -168,7 +169,6 @@ static const Key keys[] = {
 
 
   // window management
-	{ MODKEY,                    XKB_KEY_b,           togglebar,        {0} },
 	{ MODKEY,                    XKB_KEY_j,           focusstack,       {.i = +1} },
 	{ MODKEY,                    XKB_KEY_k,           focusstack,       {.i = -1} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_j,           movestack,        {.i = +1} },
@@ -220,6 +220,9 @@ static const Key keys[] = {
 	{ MODKEY|WLR_MODIFIER_CTRL|WLR_MODIFIER_SHIFT, XKB_KEY_K, setopacityfocus, {.f = +0.1f} },
 	{ MODKEY|WLR_MODIFIER_CTRL|WLR_MODIFIER_SHIFT, XKB_KEY_J, setopacityfocus, {.f = -0.1f} },
 
+  //bar
+	{ MODKEY,                    XKB_KEY_b,           togglebar,        {0} },
+	{ MODKEY,                    XKB_KEY_n,           reload_colors,    {0} },
 
   //monitors
 	{ MODKEY,                    XKB_KEY_comma,       focusmon,         {.i = WLR_DIRECTION_LEFT} },
