@@ -372,6 +372,7 @@ static void pointerfocus(Client *c, struct wlr_surface *surface,
 static void powermgrsetmode(struct wl_listener *listener, void *data);
 static void quit(const Arg *arg);
 static void reload_colors(const Arg *arg);
+static void sigusr1handler(int sig);
 static void rendermon(struct wl_listener *listener, void *data);
 static void requestdecorationmode(struct wl_listener *listener, void *data);
 static void requeststartdrag(struct wl_listener *listener, void *data);
@@ -3012,6 +3013,12 @@ setsel(struct wl_listener *listener, void *data)
 }
 
 void
+sigusr1handler(int sig)
+{
+	reload_colors(NULL);
+}
+
+void
 setup(void)
 {
 	int drm_fd, i, sig[] = {SIGCHLD, SIGINT, SIGTERM, SIGPIPE};
@@ -3243,6 +3250,7 @@ setup(void)
 		fprintf(stderr, "failed to setup XWayland X server, continuing without it\n");
 	}
 #endif
+	signal(SIGUSR1, sigusr1handler);
 }
 
 void
