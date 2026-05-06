@@ -40,7 +40,7 @@ static int log_level = WLR_ERROR;
 
 /* Autostart */
 static const char *const autostart[] = {
-        "swaybg", "-i", "Pictures/walls/goldfinch3.png", NULL,
+        "sh", "-c", "swaybg -i $(cat ~/.cache/current-wall) -m fill", NULL,
 		"wal", "-R", NULL,
         "pkill", "-SIGUSR1", "dwl", NULL,
         NULL /* terminate */
@@ -148,7 +148,8 @@ static const char *menucmd[] = { "/home/stan/dwldots/scripts/wmenu_run_wal.sh", 
 static const char *browser[] = { "zen-browser", NULL};
 
 static const char *screenshotcopy[] = { "dwldots/scripts/screenshotcopy.sh", NULL};
-static const char *screenshot[] =     { "dwldots/scripts/screenshot.sh", NULL};
+static const char *screenshot[]     = { "dwldots/scripts/screenshot.sh", NULL};
+static const char *wallpaper[]      = { "dwldots/scripts/wallpaper.sh", NULL};
 
 static const char *up_vol[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%",   NULL };
 static const char *down_vol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%",   NULL };
@@ -170,6 +171,7 @@ static const Key keys[] = {
   //scripts
 	{ MODKEY,                    XKB_KEY_s,           spawn,            {.v = screenshotcopy} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_s,           spawn,            {.v = screenshot}     },
+	{ MODKEY,                    XKB_KEY_e,           spawn,            {.v = wallpaper}     },
 
 
   // window management
