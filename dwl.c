@@ -3028,6 +3028,10 @@ setup(void)
 	for (i = 0; i < (int)LENGTH(sig); i++)
 		sigaction(sig[i], &sa, NULL);
 
+	sa.sa_handler = sigusr1handler;
+	sigaction(SIGUSR1, &sa, NULL);
+	sa.sa_handler = handlesig;
+
 
 	wlr_log_init(log_level, NULL);
 
@@ -3250,7 +3254,7 @@ setup(void)
 		fprintf(stderr, "failed to setup XWayland X server, continuing without it\n");
 	}
 #endif
-	signal(SIGUSR1, sigusr1handler);
+
 }
 
 void
