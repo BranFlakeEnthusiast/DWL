@@ -150,6 +150,7 @@ static const char *browser[] = { "zen-browser", NULL};
 static const char *screenshotcopy[] = { "dwldots/scripts/screenshotcopy.sh", NULL};
 static const char *screenshot[]     = { "dwldots/scripts/screenshot.sh", NULL};
 static const char *wallpaper[]      = { "dwldots/scripts/wallpaper.sh", NULL};
+static const char *notes[]      = { "dwldots/scripts/notes.sh", NULL};
 
 static const char *up_vol[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%",   NULL };
 static const char *down_vol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%",   NULL };
@@ -172,6 +173,7 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_s,           spawn,            {.v = screenshotcopy} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_s,           spawn,            {.v = screenshot}     },
 	{ MODKEY,                    XKB_KEY_e,           spawn,            {.v = wallpaper}     },
+	{ MODKEY,                    XKB_KEY_n,           spawn,            {.v = notes}     },
 
 
   // window management
@@ -228,7 +230,7 @@ static const Key keys[] = {
 
   //bar
 	{ MODKEY,                    XKB_KEY_b,           togglebar,        {0} },
-	{ MODKEY,                    XKB_KEY_n,           reload_colors,    {0} },
+	// { MODKEY,                    XKB_KEY_n,           reload_colors,    {0} },
 
   //monitors
 	{ MODKEY,                    XKB_KEY_comma,       focusmon,         {.i = WLR_DIRECTION_LEFT} },
