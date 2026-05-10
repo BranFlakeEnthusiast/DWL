@@ -183,6 +183,7 @@ static const Key keys[] = {
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_k,           movestack,        {.i = -1} },
 
 	{ MODKEY,                    XKB_KEY_f,           togglefullscreen, {0} },
+	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_f,           togglefakefullscreen, {0} },
 	{ MODKEY,                    XKB_KEY_w,           zoom,             {0} },
 	{ MODKEY,                    XKB_KEY_Tab,         view,             {0} },
 
