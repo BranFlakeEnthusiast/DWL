@@ -41,9 +41,9 @@ static int log_level = WLR_ERROR;
 /* Autostart */
 static const char *const autostart[] = {
         "sh", "-c", "swaybg -i $(cat ~/.cache/current-wall) -m fill", NULL,
-				"wal", "-R", NULL,
-        "pkill", "-SIGUSR1", "dwl", NULL,
-				"swayidle", "-w", "timeout 300 'swaylock -i $(cat ~/.cache/current-wall) -u -f'", "timeout 600 'systemctl suspend -i'", "before-sleep 'swaylock -i $(cat ~/.cache/current-wall) -u -f'", NULL,
+				"sh", "-c", "wal -R", NULL,
+        "sh", "-c", "pkill -SIGUSR1 dwl", NULL,
+				"sh", "-c", "swayidle -w timeout 300 'swaylock -i $(cat ~/.cache/current-wall) -u -f' timeout 600 'systemctl suspend -i' before-sleep 'swaylock -i $(cat ~/.cache/current-wall) -u -f'", NULL,
         NULL /* terminate */
 };
 
