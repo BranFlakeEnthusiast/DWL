@@ -41,8 +41,9 @@ static int log_level = WLR_ERROR;
 /* Autostart */
 static const char *const autostart[] = {
         "sh", "-c", "swaybg -i $(cat ~/.cache/current-wall) -m fill", NULL,
-		"wal", "-R", NULL,
+				"wal", "-R", NULL,
         "pkill", "-SIGUSR1", "dwl", NULL,
+				"swayidle", "-w", "timeout 300 'swaylock -i $(cat ~/.cache/current-wall) -u -f'", "timeout 600 'systemctl suspend -i'", "before-sleep 'swaylock -i $(cat ~/.cache/current-wall) -u -f'", NULL,
         NULL /* terminate */
 };
 
@@ -150,7 +151,8 @@ static const char *browser[] = { "zen-browser", NULL};
 static const char *screenshotcopy[] = { "dwldots/scripts/screenshotcopy.sh", NULL};
 static const char *screenshot[]     = { "dwldots/scripts/screenshot.sh", NULL};
 static const char *wallpaper[]      = { "dwldots/scripts/wallpaper.sh", NULL};
-static const char *notes[]      = { "dwldots/scripts/notes.sh", NULL};
+static const char *notes[]          = { "dwldots/scripts/notes.sh", NULL};
+static const char *sysmenu[]         = { "dwldots/scripts/system.sh", NULL};
 
 static const char *up_vol[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%",   NULL };
 static const char *down_vol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%",   NULL };
@@ -174,6 +176,7 @@ static const Key keys[] = {
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_s,           spawn,            {.v = screenshot}     },
 	{ MODKEY,                    XKB_KEY_e,           spawn,            {.v = wallpaper}     },
 	{ MODKEY,                    XKB_KEY_n,           spawn,            {.v = notes}     },
+	{ MODKEY,                    XKB_KEY_BackSpace,   spawn,            {.v = sysmenu}     },
 
 
   // window management
@@ -197,8 +200,8 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_0,           view,             {.ui = ~0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_parenright,  tag,              {.ui = ~0} },
 
-    { MODKEY,                    XKB_KEY_i,           incnmaster,       {.i = +1} },
-    { MODKEY,                    XKB_KEY_p,           incnmaster,       {.i = -1} },
+  { MODKEY,                    XKB_KEY_i,           incnmaster,       {.i = +1} },
+  { MODKEY,                    XKB_KEY_p,           incnmaster,       {.i = -1} },
 
 	{ MODKEY,                    XKB_KEY_h,           setmfact,         {.f = -0.05f} },
 	{ MODKEY,                    XKB_KEY_l,           setmfact,         {.f = +0.05f} },
